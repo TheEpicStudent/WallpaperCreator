@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--
+    FOr testing purposes only
+    -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallpaper Creator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <verticalline></verticalline>
+        
+    <div class="leftside">
+        <div class="toolbar">
+        <button onclick="tabOpen('screenSize');" >A</button>
+        <button onclick="tabOpen('templates');">A</button>
+        <button onclick="tabOpen('background')">A</button>
+        </div>
+        <div id="contentsLeft" class="leftContents">
+            <p id="test">Test</p>
+            <h1 id="texth1">Add Text</h1>
+            <input type="text" id="textinput" placeholder="Enter your text here">
+            <button onclick="addText(); done=true;" id="addTextButton">Add Text</button>
+            <input
+            <h1 id="edith1">Edit Text</h1>
+            <p id="editp">Click where you want the text to be.</p>
+            <script>
+                document.getElementById('edith1').style.display = 'none';
+                document.getElementById('editp').style.display = 'none';
+                let number = 1;
+                let done = false;
+                function editText() {
+                    document.getElementById('texth1').style.display = 'none';
+                    document.getElementById('textinput').style.display = 'none';
+                    document.getElementById('addTextButton').style.display = 'none';
+                    document.getElementById('edith1').style.display = 'block';
+                    document.getElementById('editp').style.display = 'block';
+
+                    const screen = document.getElementById('screen');
+                    screen.addEventListener('click', function(event) {
+                        const x = event.clientX;
+                        const y = event.clientY;
+                        const textElements = document.getElementById("text" + (number - 1));
+                        if (textElements) {
+                            textElements.style.left = x + 'px';
+                            textElements.style.top = y + 'px';
+                        }
+                        if (done) {
+                            document.getElementById('texth1').style.display = 'block';
+                            document.getElementById('textinput').style.display = 'block';
+                            document.getElementById('addTextButton').style.display = 'block';
+                            document.getElementById('edith1').style.display = 'none';
+                            document.getElementById('editp').style.display = 'none';
+                            screen.removeEventListener('click', arguments.callee);
+                            done = false;
+                        }
+                    });
+                }
+                function addText() {
+                    const textValue = document.getElementById('textinput').value;
+                    const textElement = document.createElement('p');
+                    textElement.innerText = textValue;
+                    textElement.style.position = 'absolute';
+                    textElement.style.justifySelf = 'center';
+                    textElement.style.alignSelf = 'center';
+                    textElement.style.color = 'black';
+                    textElement.style.fontSize = '24px';
+                    
+                    textElement.id = "text" + number;
+                    number++;
+                    document.getElementById('screen').appendChild(textElement);
+                    editText();
+                }
+                
+            </script>
+        </div>
+    </div>
+    <div class="rightside">
+        <div class="screen" id="screen">
+
+        </div>
+    </div>  
+        <script src="creatorJS.js"></script>
+</body>
+</html>

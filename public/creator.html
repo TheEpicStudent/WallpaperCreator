@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--
+    creator.html
+    AI usage: Inline suggestions only from copilot
+    -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallpaper Creator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <verticalline></verticalline>
+        
+    <div class="leftside">
+        <div class="toolbar">
+        <button onclick="tabOpen('welcome');" >A</button>
+        <button onclick="tabOpen('screenSize');" >A</button>
+        <button onclick="tabOpen('templates');">A</button>
+        <button onclick="tabOpen('background')">A</button>
+        </div>
+        <div id="contentsLeft" class="leftContents">
+            <h1>Welcome to the Wallpaper Creator!</h1>
+            <p>First, select the Device Type button from the toolbar to your left.</p>
+            <p>Then you can start designing your wallpaper, or select a template to get started quickly.</p>
+            <br>
+            <p>Enjoy!</p>
+        </div>
+    </div>
+    <div class="rightside">
+        <div class="screen" id="screen">
+
+        </div>
+        <button onclick="toggleDarkmode();" id="darkmodeButton">Toggle Dark Mode</button>
+        </div>  
+        <script src="creatorJS.js"></script>
+</body>
+</html>

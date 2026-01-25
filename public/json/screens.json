@@ -1,0 +1,165 @@
+[
+    {
+        "title": "Test Screen",
+        "backID": "testscreen",
+        "width": 1080,
+        "height": 2340,
+        "notch": "/"
+    },
+    {
+        "title": "iPhone 16 Pro Max",
+        "backID": "iphone16promax",
+        "width": 1320,
+        "height": 2868
+    },
+    {
+        "title": "iPhone 16 Pro",
+        "backID": "iphone16pro",
+        "width": 1206,
+        "height": 2622
+    },
+    {
+        "title":"iPhone 16 Plus",
+        "backID":"iphone16plus",
+        "width":1290,
+        "height":2796
+    },
+    {
+        "title":"iPhone 16",
+        "backID":"iphone16",
+        "width":1179,
+        "height":2556
+    },
+    {
+        "title":"iPhone 15 Pro Max",
+        "backID":"iphone15promax",
+        "width":1290,
+        "height":2796
+    },
+    {
+        "title":"iPhone 15 Pro",
+        "backID":"iphone15pro",
+        "width":1179,
+        "height":2556
+    },
+    {
+        "title":"iPhone 15 Plus",
+        "backID":"iphone15plus",
+        "width":1290,
+        "height":2796
+    },
+    {
+        "title":"iPhone 15",
+        "backID":"iphone15",
+        "width":1179,
+        "height":2556
+    },
+    {
+        "title":"iPhone 14 Pro Max",
+        "backID":"iphone14promax",
+        "width":1290,
+        "height":2796
+    },
+    {
+        "title":"iPhone 14 Pro",
+        "backID":"iphone14pro",
+        "width":1179,
+        "height":2556
+    },
+    {
+        "title":"iPhone 14 Plus",
+        "backID":"iphone14plus",
+        "width":1284,
+        "height":2778
+    },
+    {
+        "title":"iPhone 14",
+        "backID":"iphone14",
+        "width":1170,
+        "height":2532
+    },
+    {
+        "title":"iPhone 13 Pro Max",
+        "backID":"iphone13promax",
+        "width":1284,
+        "height":2778
+    },
+    {
+        "title":"iPhone 13 Pro",
+        "backID":"iphone13pro",
+        "width":1170,
+        "height":2532
+    },
+    {
+        "title":"iPhone 13 mini",
+        "backID":"iphone13mini",
+        "width":1080,
+        "height":2340
+    },
+    {
+        "title":"iPhone 13",
+        "backID":"iphone13",
+        "width":1170,
+        "height":2532
+    },
+    {
+        "title":"iPhone 12 Pro Max",
+        "backID":"iphone12promax",
+        "width":1284,
+        "height":2778
+    },
+    {
+        "title":"iPhone 12 Pro",
+        "backID":"iphone12pro",
+        "width":1170,
+        "height":2532
+    },
+    {
+        "title":"iPhone 12 mini",
+        "backID":"iphone12mini",
+        "width":1080,
+        "height":2340
+    },
+    {
+        "title":"iPhone 12",
+        "backID":"iphone12",
+        "width":1170,
+        "height":2532
+    },
+    {
+        "title":"iPhone 11 Pro Max",
+        "backID":"iphone11promax",
+        "width":1242,
+        "height":2688
+    },
+    {
+        "title":"iPhone 11 Pro",
+        "backID":"iphone11pro",
+        "width":1125,
+        "height":2436
+    },
+    {
+        "title":"iPhone 11",
+        "backID":"iphone11",
+        "width":828,
+        "height":1792
+    },
+    {
+        "title":"iPhone XS Max",
+        "backID":"iphonexsmax",
+        "width":1242,
+        "height":2688
+    },
+    {
+        "title":"iPhone XR",
+        "backID":"iphonexr",
+        "width":828,
+        "height":1792
+    },
+    {
+        "title":"iPhone X",
+        "backID":"iphonex",
+        "width":1125,
+        "height":2436
+    }
+]
