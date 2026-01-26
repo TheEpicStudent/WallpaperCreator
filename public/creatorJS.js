@@ -165,6 +165,26 @@ function checkBG() {
 
 
 
+
+
+function toggleDarkmode() {
+    document.body.classList.toggle('darkmode');
+    const darkmodeButton = document.getElementById('darkmodeButton');
+    if (document.body.classList.contains('darkmode')) {
+        darkmodeButton.textContent = 'Switch to Light Mode';
+        document.getElementById('stylesheet').href = 'darkstyle.css';
+    } else {
+        darkmodeButton.textContent = 'Switch to Dark Mode';
+        document.getElementById('stylesheet').href = 'style.css';
+    }
+}
+
+
+
+
+
+
+
 /* 
 GOing unused for now bc i dont wanna deal with it
 
