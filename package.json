@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "express": "^5.2.1",
+    "http": "^0.0.1-security",
+    "path": "^0.12.7",
+    "prompt-sync": "^4.2.0"
+  }
+}
