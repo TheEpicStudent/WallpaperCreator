@@ -10,7 +10,7 @@ const prompt = require('prompt-sync')();
 const server = http.createServer(app);
 
 const { readFileSync } = require('fs');
-const PORT = process.env.PORT || 8080;
+const PORT = 8080;
 
 app.use(express.static(path.join(__dirname + '/public')));
 
