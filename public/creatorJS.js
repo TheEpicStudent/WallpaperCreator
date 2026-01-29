@@ -1,7 +1,17 @@
 //creatorJS.js
 // AI usage: inline suggestions only
-
+lastposx = '100px';
+lastposy = '100px';
+originalposx = '100px';
+originalposy = '100px';
+let distance = 10;
+let number = 1;
+let done = false;
 let leftside = document.getElementById('contentsLeft');
+document.getElementById('edith1').style.display = 'none';
+document.getElementById('editp').style.display = 'none';
+
+
 
 window.addEventListener("beforeunload", (event) => {
     const hasUnsavedChanges = true; 
@@ -103,6 +113,64 @@ function tabOpen(tab) {
             <br>
             <p>Enjoy!</p>
         `;
+    } else if (tab === 'text') {
+        
+        
+        leftside.innerHTML = `
+        <h1 id="texth1">Add Text</h1>
+            <input type="text" id="textinput" placeholder="Enter your text here">
+            <button onclick="addText(); done=true; console.log('clicked');" id="addTextButton">Add Text</button>
+            <h1 id="edith1">Edit Text</h1>
+            <br>
+            <p id="editp">Click where you want the text to be.</p>
+            <p id="editcolordesc">Change text color:</p>
+            <div class="lazyhorizontalstack">
+            <label for="textcolorpicker" id="textcolorlabel">Select Color</label>
+            <input type="color" id="textcolorpicker" onchange="document.getElementById('text' + (number - 1)).style.color = this.value;" style="margin-bottom: 10px; display:none;">
+            <circle id="textcolorshow">
+            </div>
+            <br>
+            <p id="editsizedesc">Change text size:</p>
+            <input type="number" id="textsizepicker" min="8" max="100" value="24" onchange="document.getElementById('text' + (number - 1)).style.fontSize = this.value + 'px';">
+            <p id="editposdesc">Adjust text position:</p>
+            <button onclick="moveText('up')" id="moveUpButton" style="border-radius:5px 5px 0 0">↑</button>
+            <div class="lazyhorizontalstack" style="padding:0;">
+            <button onclick="moveText('left')" id="moveLeftButton" style="margin-top:0; border-radius:5px 0 0 5px">←</button>
+            <button onclick="moveText('right')" id="moveRightButton" style="margin-top:0; border-radius:0 5px 5px 0">→</button>
+            </div>
+            <button onclick="moveText('down')" id="moveDownButton" style="margin-top:0; border-radius:0 0 5px 5px">↓</button>
+            <br>
+            <div class="lazyhorizontalstack" style="align-items:center;">
+            <p id="selectTextElementDesc">Select Text Element:</p>
+            <input type="number" id="textselector" min="0" value="1" style="width:50px;" onchange="console.log('Selected text element ' + this.value);">
+            </div>
+            <br>
+            <div class="lazyhorizontalstack" style="align-items:center;">
+            <p id="preciseMoveDesc">Precise Movement:</p>
+            <input type="checkbox" id="preciceMove" >
+            </div>
+
+            `;
+            // im bouta crash out
+        document.getElementById('edith1').style.display = 'none';
+        document.getElementById('editp').style.display = 'none';
+        document.getElementById('textcolorpicker').style.display = 'none';
+        document.getElementById('textcolorpicker').style.display = 'none';
+        document.getElementById('textcolorshow').style.display = 'none';
+        document.getElementById('textcolorlabel').style.display = 'none';
+        document.getElementById('editsizedesc').style.display = 'none';
+        document.getElementById('editcolordesc').style.display = 'none';
+        document.getElementById('textsizepicker').style.display = 'none';
+        document.getElementById('editposdesc').style.display = 'none';
+        document.getElementById('moveLeftButton').style.display = 'none';
+        document.getElementById('moveRightButton').style.display = 'none';
+        document.getElementById('moveUpButton').style.display = 'none';
+        document.getElementById('moveDownButton').style.display = 'none';
+        document.getElementById('textselector').style.display = 'none';
+        document.getElementById('preciceMove').style.display = 'none';
+        document.getElementById('selectTextElementDesc').style.display = 'none';
+        document.getElementById('preciseMoveDesc').style.display = 'none';
+
     }
 
 
@@ -181,8 +249,117 @@ function toggleDarkmode() {
 
 
 
+function editText() {
+                    document.getElementById('texth1').style.display = 'none';
+                    document.getElementById('textinput').style.display = 'none';
+                    document.getElementById('addTextButton').style.display = 'none';
+                    document.getElementById('edith1').style.display = 'block';
+                    document.getElementById('editp').style.display = 'block';
+
+                    const screen = document.getElementById('screen');
+                    screen.addEventListener('click', function(event) {
+                        const x = event.clientX;
+                        const y = event.clientY;
+                        const textElements = document.getElementById("text" + (number - 1));
+                        if (textElements) {
+                            textElements.style.left = x + 'px';
+                            textElements.style.top = y + 'px';
+                        }
+                        if (done) {
+                            document.getElementById('texth1').style.display = 'block';
+                            document.getElementById('textinput').style.display = 'block';
+                            document.getElementById('addTextButton').style.display = 'block';
+                            document.getElementById('edith1').style.display = 'none';
+                            document.getElementById('editp').style.display = 'none';
+                            document.getElementById('edith1').style.display = 'none';
+                            document.getElementById('editp').style.display = 'none';
+                            document.getElementById('textcolorpicker').style.display = 'none';
+                            document.getElementById('selectTextElementDesc').style.display = 'block';
+                            document.getElementById('preciseMoveDesc').style.display = 'block';
+                            document.getElementById('textselector').value = number - 1;
+                            
+                            document.getElementById('textcolorshow').style.display = 'block';
+                            document.getElementById('textcolorlabel').style.display = 'block';
+                            document.getElementById('editsizedesc').style.display = 'block';
+                            document.getElementById('editcolordesc').style.display = 'block';
+                            document.getElementById('textsizepicker').style.display = 'block';
+                            document.getElementById('editposdesc').style.display = 'block';
+                            document.getElementById('moveLeftButton').style.display = 'block';
+                            document.getElementById('moveRightButton').style.display = 'block';
+                            document.getElementById('moveUpButton').style.display = 'block';
+                            document.getElementById('moveDownButton').style.display = 'block';
+                            document.getElementById('textselector').style.display = 'block';
+                            document.getElementById('preciceMove').style.display = 'block';
+                            screen.removeEventListener('click', arguments.callee);
+                            originalposx = document.getElementById("text" + (number - 1)).style.left;
+                            originalposy = document.getElementById("text" + (number - 1)).style.top;
+                            done = false;
+                            
+                        }
+                    });
+                }
+
+function addText() {
+    const textValue = document.getElementById('textinput').value;
+    const textElement = document.createElement('p');
+    textElement.innerText = textValue;
+    textElement.style.position = 'absolute';
+    textElement.style.justifySelf = 'center';
+                    textElement.style.alignSelf = 'center';
+                    textElement.style.color = 'black';
+                    textElement.style.fontSize = '24px';
+                    
+                    textElement.id = "text" + number;
+                    number++;
+                    document.getElementById('screen').appendChild(textElement);
+                    editText();
+                }
+function checkScreenBounds() {
+    let id = 'text' + document.getElementById('textselector').value;
+    let screenbounds = document.getElementById('screen').getBoundingClientRect();
+    let textbounds = document.getElementById(id).getBoundingClientRect();
+    if (textbounds.left < screenbounds.left) {
+        document.getElementById(id).style.left = lastposx;
+    } else if (textbounds.right > screenbounds.right) {
+        document.getElementById(id).style.left = lastposx;
+    } else if (textbounds.top < screenbounds.top) {
+        document.getElementById(id).style.top = lastposy;
+    } else if (textbounds.bottom > screenbounds.bottom) {
+        document.getElementById(id).style.top = lastposy; 
+    }
 
 
+}
+
+
+
+
+function moveText(direction) {
+ if (document.getElementById('preciceMove').checked) {
+    distance = 1;
+ } else {
+    distance = 10;
+ }
+ let id = 'text' + document.getElementById('textselector').value;
+ if (document.getElementById(id).style.left == null || document.getElementById(id).style.top == null) {
+    document.getElementById(id).style.left = '10px';
+    document.getElementById(id).style.top = '10px';
+ }
+lastposx = document.getElementById(id).style.left;
+lastposy = document.getElementById(id).style.top;
+ if (direction === 'left') {
+        document.getElementById(id).style.left = parseInt(document.getElementById(id).style.left) - distance + 'px';
+        console.log('moved left');
+    } else if (direction === 'right') {
+        document.getElementById(id).style.left = parseInt(document.getElementById(id).style.left) + distance + 'px';
+        console.log('moved right');
+    } else if (direction === 'up') {
+        document.getElementById(id).style.top = parseInt(document.getElementById(id).style.top) - distance + 'px';
+    } else if (direction === 'down') {
+        document.getElementById(id).style.top = parseInt(document.getElementById(id).style.top) + distance + 'px';
+    }
+    checkScreenBounds();
+}
 
 
 /* 
