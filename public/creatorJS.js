@@ -1,7 +1,4 @@
 //creatorJS.js
-
-const { text } = require("body-parser");
-
 // AI usage: inline suggestions only
 lastposx = '100px';
 lastposy = '100px';
