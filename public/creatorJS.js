@@ -1,5 +1,8 @@
 //creatorJS.js
 // AI usage: inline suggestions only
+
+
+
 lastposx = '100px';
 lastposy = '100px';
 let centerX = 0;
@@ -105,10 +108,11 @@ function tabOpen(tab) {
             <p style="display:none;">Adjust image position:</p>
             <br>
             <input type="range" id="bgimageposX" min="0" max="100" value="50" onchange="document.getElementById('screen').style.backgroundPositionX = this.value + '%';checkBG();" style="display:none;">
-            <sub style="display:none;">Horizontal position</sub>
+            <sub id="bgimageposXlabel" style="display:none;">Horizontal position</sub>
             <br>
+            h
             <input type="range" id="bgimageposY" min="0" max="100" value="50" onchange="document.getElementById('screen').style.backgroundPositionY = this.value + '%';checkBG();" style="display:none;">
-            <sub style="display:none;">Vertical position</sub>
+            <sub id="bgimageposYlabel" style="display:none;">Vertical position</sub>
             </div>
         `;
     } else if (tab === 'welcome') {
@@ -182,6 +186,12 @@ function tabOpen(tab) {
         document.getElementById('resetTextPositionButton').style.display = 'none';
         document.getElementById('deleteTextButton').style.display = 'none';
         
+    } else if (tab === 'download') {
+        leftside.innerHTML = `
+        <h1>Download Wallpaper</h1>
+            <p>When you are done, go ahead and download it</p>
+            <button onclick="downloadWallpaper();">Download Wallpaper</button>
+        `;
     }
 
 
@@ -222,15 +232,21 @@ function checkBG() {
                 if (document.getElementById('screen').style.backgroundImage === 'none') {
                     document.getElementById('bgimageposY').style.display = 'none';
                     document.getElementById('bgimageposX').style.display = 'none';
+                    document.getElementById('bgimageposXlabel').style.display = 'none';
+                    document.getElementById('bgimageposYlabel').style.display = 'none';
                     document.getElementById('ranges').style.display = 'none';
                     document.getElementById('bgcolorshow').style.backgroundColor = document.getElementById('screen').style.backgroundColor;
                     console.log('false')
                 } else {
                     document.getElementById('bgimageposX').style.display = 'block';
                     document.getElementById('bgimageposY').style.display = 'block';
+                    document.getElementById('bgimageposXlabel').style.display = 'block';
+                    document.getElementById('bgimageposYlabel').style.display = 'block';
                     document.getElementById('ranges').style.display = 'block';
                     document.getElementById('bgcolorshow').style.backgroundColor = document.getElementById('screen').style.backgroundColor;
                     console.log('true')
+                    document.getElementById('bgimageposX').addEventListener('input', updateImagePositionX);
+                    document.getElementById('bgimageposY').addEventListener('input', updateImagePositionY);
                 }
             }
             function updateImagePositionX() {
@@ -401,6 +417,28 @@ function resetTextPosition() {
     document.getElementById(id).style.top = centerY + 'px';
 }
 
+function downloadWallpaper() {
+    const screen = document.getElementById('screen');
+    screen.style.border = 'none';
+    screen.style.borderRadius = '0px';
+    html2canvas(screen).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'wallpaper.png';
+        link.href = canvas.toDataURL();
+        link.innerText = 'Download';
+        canvas.style.border = '2px solid black';
+        document.getElementById('contentsLeft').innerHTML = `<h2>Wallpaper Ready!</h2>`;
+        document.getElementById('contentsLeft').appendChild(link);
+        document.getElementById('contentsLeft').appendChild(canvas);
+    });
+    screen.style.border = '2px solid black';
+    screen.style.borderRadius = '15px';
+}
+
+
+function popupMessage(message) {
+    // may make later
+}
 /* 
 GOing unused for now bc i dont wanna deal with it
 

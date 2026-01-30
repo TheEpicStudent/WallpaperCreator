@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wallpaper Creator</title>
     <link rel="stylesheet" id="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
 
@@ -16,11 +17,12 @@
         
     <div class="leftside">
         <div class="toolbar">
-        <button onclick="tabOpen('welcome');" >A</button>
-        <button onclick="tabOpen('screenSize');" >A</button>
-        <button onclick="tabOpen('templates');">A</button>
-        <button onclick="tabOpen('background')">A</button>
-        <button onclick="tabOpen('text')">A</button>
+        <button onclick="tabOpen('welcome');" class="sidebutton"><img src="images/elements/home.svg" alt="Welcome" class="sidebuttonimg"></button>
+        <button onclick="tabOpen('screenSize');" class="sidebutton"><img src="images/elements/maximize.svg" alt="Device Type" class="sidebuttonimg"></button>
+        <button onclick="tabOpen('templates');" class="sidebutton"><img src="images/elements/layout.svg" alt="Templates" class="sidebuttonimg"></button>
+        <button onclick="tabOpen('background')" class="sidebutton"><img src="images/elements/image.svg" alt="Background" class="sidebuttonimg"></button>
+        <button onclick="tabOpen('text')" class="sidebutton"><img src="images/elements/type.svg" alt="Text" class="sidebuttonimg"></button>
+        <button onclick="tabOpen('download')" class="sidebutton"><img src="images/elements/download.svg" alt="Download" class="sidebuttonimg"></button>
         </div>
         <div id="contentsLeft" class="leftContents">
             <h1>Welcome to the Wallpaper Creator!</h1>

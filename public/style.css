@@ -151,4 +151,14 @@ circle {
     border-radius: 50%;
     margin: 10px 10px 0 10px;
 }
-
+.sidebuttonimg {
+    filter: invert(100%);
+}
+.sidebutton {
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
