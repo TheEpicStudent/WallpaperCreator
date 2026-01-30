@@ -17,6 +17,10 @@ document.getElementById('edith1').style.display = 'none';
 document.getElementById('editp').style.display = 'none';
 
 
+document.getElementById('edith1').style.display = 'none';
+document.getElementById('editp').style.display = 'none';
+
+
 
 window.addEventListener("beforeunload", (event) => {
     const hasUnsavedChanges = true; 
