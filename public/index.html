@@ -8,7 +8,12 @@
 </head>
 <body>
     <h1>Make your own wallpaper!</h1>
+    <p>this shouldve redirected to the creator. If not, check the following:</p>
+    <p>That you have Javascript enabled <noscript>(which you don't)</noscript></p>
+    <p>that your browser is up to date.</p>
     <button onclick="window.location.href = '/creator';">Try it now</button>
-    
+    <script>
+        addEventListener('load', window, window.location.href = '/creator');
+    </script>
 </body>
 </html>

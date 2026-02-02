@@ -1,8 +1,9 @@
 //creatorJS.js
+
 // AI usage: inline suggestions only
-
-
-
+hovering = false
+mousedown = false
+draging = false
 lastposx = '100px';
 lastposy = '100px';
 let centerX = 0;
@@ -91,6 +92,7 @@ function tabOpen(tab) {
                     </div>
             </div>
         `;
+        // getTemplates();
     } else if (tab === 'background') {
         leftside.innerHTML = `
         <h1 onload="checkBG();">Background</h1>
@@ -110,9 +112,10 @@ function tabOpen(tab) {
             <input type="range" id="bgimageposX" min="0" max="100" value="50" onchange="document.getElementById('screen').style.backgroundPositionX = this.value + '%';checkBG();" style="display:none;">
             <sub id="bgimageposXlabel" style="display:none;">Horizontal position</sub>
             <br>
-            h
+
             <input type="range" id="bgimageposY" min="0" max="100" value="50" onchange="document.getElementById('screen').style.backgroundPositionY = this.value + '%';checkBG();" style="display:none;">
             <sub id="bgimageposYlabel" style="display:none;">Vertical position</sub>
+          
             </div>
         `;
     } else if (tab === 'welcome') {
@@ -128,7 +131,7 @@ function tabOpen(tab) {
         
         leftside.innerHTML = `
         <h1 id="texth1">Add Text</h1>
-            <input type="text" id="textinput" placeholder="Enter your text here">
+            <input type="text" id="textinput" placeholder="Enter your text here" maxlength="15">
             <button onclick="addText(); done=true; console.log('clicked');" id="addTextButton">Add Text</button>
             <h1 id="edith1">Edit Text</h1>
             <br>
@@ -162,6 +165,7 @@ function tabOpen(tab) {
             <br>
             <button onclick="resetTextPosition();" id="resetTextPositionButton">Reset Text Position</button>
             <button onclick="deleteText();" id="deleteTextButton">Delete Text Element</button>
+            <!-- for testing reasons <button onclick="dragText();">teandifn</button> -->
 
             `;
             // im bouta crash out
@@ -415,6 +419,13 @@ function resetTextPosition() {
     let id = 'text' + document.getElementById('textselector').value;
     document.getElementById(id).style.left = centerX + 'px';
     document.getElementById(id).style.top = centerY + 'px';
+    if (document.getElementById(id).innerText.length > 13) {
+        document.getElementById("textsizepicker").value = 16;
+        document.getElementById(id).style.fontSize = '16px';
+    } else {
+        document.getElementById("textsizepicker").value = 24;
+        document.getElementById(id).style.fontSize = '24px';
+    }
 }
 
 function downloadWallpaper() {
@@ -435,6 +446,36 @@ function downloadWallpaper() {
     screen.style.borderRadius = '15px';
 }
 
+function dragText() {
+    let id = 'text' + document.getElementById('textselector').value;
+    document.getElementById(id).onmousedown = function(event) {
+        mousedown = true;
+        const textElement = document.getElementById(id);
+        let shiftX = event.clientX - textElement.getBoundingClientRect().left;
+        let shiftY = event.clientY - textElement.getBoundingClientRect().top;
+        document.getElementById(id).style.top = event.clientY - 10 + 'px';
+    }
+}
+
+function getTemplates() {
+    fetch('/json/templates.json')
+        .then(response => response.json())
+        .then(data => {
+            console.log('Templates loaded:', data);
+            data.forEach(element => {
+                document.getElementById('contentsLeft').innerHTML += `
+                <div class="templatecard">
+                        <p>${element.Name}</p>
+                        <img class="templatepreview" src="${element.Preview}" alt="${element.Name} Preview">
+                        <button onclick="popupMessage('Template selection not implemented yet!');">Select</button>
+                    </div>
+                `;
+            });
+        })
+        .catch(error => {
+            console.error('Error loading templates:', error);
+        });
+}
 
 function popupMessage(message) {
     // may make later
