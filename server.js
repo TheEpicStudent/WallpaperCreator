@@ -27,7 +27,12 @@ app.get('/creator', (req, res) => {
     res.end(readFileSync(filepath));
     
 });
-
+app.get('/about', (req, res) => {
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+    const filepath = path.join(__dirname, 'public', 'about.html');
+    res.end(readFileSync(filepath));
+    
+});
 
 server.listen(PORT, () => {
     console.log(`Server is on http://localhost:${PORT}`);

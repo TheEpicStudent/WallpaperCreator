@@ -1,6 +1,8 @@
 //creatorJS.js
 
 // AI usage: inline suggestions only
+shapeTapped = false;
+shapenumber = 1;
 hovering = false
 mousedown = false
 draging = false
@@ -165,6 +167,7 @@ function tabOpen(tab) {
             <br>
             <button onclick="resetTextPosition();" id="resetTextPositionButton">Reset Text Position</button>
             <button onclick="deleteText();" id="deleteTextButton">Delete Text Element</button>
+            <!-- <select id="textfontselector" style="display:none;"> -->
             <!-- for testing reasons <button onclick="dragText();">teandifn</button> -->
 
             `;
@@ -196,8 +199,47 @@ function tabOpen(tab) {
             <p>When you are done, go ahead and download it</p>
             <button onclick="downloadWallpaper();">Download Wallpaper</button>
         `;
+    } else if (tab === 'shapes') {
+        leftside.innerHTML = `
+        <h1>Add Shapes</h1>
+            <p>Add shapes description</p>
+            <select id="shapeType">
+                <option value="circle">Circle</option>
+                <option value="square">Square</option>
+                <option value="rectangle">Rectangle</option>
+                <!-- <option value="triangle">Triangle</option>
+                <option value="heart">Heart</option> -->
+            </select>
+            <button onclick="createShape();">Add Shape</button>
+            <br>
+            <div class="lazyhorizontalstack">
+            <label for="shapecolorpicker" id="shapecolorlabel">Select Color</label>
+            <input type="color" id="shapecolorpicker" onchange="document.getElementById('shape' + (document.getElementById('shapeselector').value)).style.backgroundColor = this.value;document.getElementById('shapecolorshow').style.backgroundColor = this.value;" style="margin-bottom: 10px; display:none;">
+            <circle id="shapecolorshow">
+            </div>
+            
+            <div class="templatecard">
+                <p>Shape Settings:</p>
+                <br>
+                <button onclick="placeShape();">Edit Shape Placement</button>
+                <br>
+                <sub>Shape Width</sub>
+                <input type="range" id="shapeWidth" min="10" max="500" value="100" oninput="document.getElementById('shape' + (document.getElementById('shapeselector').value)).style.width = this.value + 'px';">
+                <br>
+                <sub>Shape Height</sub>
+                <input type="range" id="shapeHeight" min="10" max="500" value="100" oninput="document.getElementById('shape' + (document.getElementById('shapeselector').value)).style.height = this.value + 'px';">
+                <br>
+                <sub>Shape Transparancy</sub>
+                <input type="range" id="shapeTrans" min="0" max="100" value="100" oninput="document.getElementById('shape' + (document.getElementById('shapeselector').value)).style.opacity = this.value + '%';">
+                <br>
+                <sub>Shape Border Radius</sub>
+                <input type="range" id="shapeBorderRadius" min="0" max="100" value="0" oninput="document.getElementById('shape' + (document.getElementById('shapeselector').value)).style.borderRadius = this.value + '%';">
+                <br>
+                <sub>Select Shape Element</sub>
+                <input type="number" min="1" value="1" id="shapeselector" style="width: 30px;">
+            </div>
+        `;
     }
-
 
 } catch (error) {
     console.error('Error loading tab content:', error);
@@ -476,6 +518,49 @@ function getTemplates() {
             console.error('Error loading templates:', error);
         });
 }
+
+function createShape() {
+                    const screen = document.getElementById('screen');
+                    const shapeElement = document.createElement('div');
+                    shapeElement.style.position = 'absolute';
+                    shapeElement.style.justifySelf = 'center';
+                    shapeElement.style.alignSelf = 'center';
+                    shapeElement.style.backgroundColor = 'gray';
+                    document.getElementById('shapecolorshow').style.backgroundColor = "gray";
+                    shapeElement.style.width = '100px';
+                    shapeElement.style.height = '100px';
+                    shapeElement.id = "shape" + shapenumber;
+                    shapenumber++;
+                    document.getElementById('shapeselector').value = shapenumber - 1;
+                    const shapeType = document.getElementById('shapeType').value
+                    if (shapeType == 'circle') {
+                        shapeElement.style.borderRadius = '50%'
+                    } else if (shapeType == 'square') {
+
+                    } else if (shapeType == 'rectangle') {
+                        shapeElement.style.width = '150px'
+                    } else {
+                        //squeare
+                    }
+                    screen.appendChild(shapeElement);
+                    editText();
+                    
+                }
+                function placeShape() {
+                    const shape = document.getElementById('shape' + (document.getElementById('shapeselector').value));
+                    const screen = document.getElementById('screen');
+                    document.body.onpointermove = event => {
+                    const { clientX, clientY } = event;
+                    shape.style.left = `${clientX}px`;
+                    shape.style.top = `${clientY}px`;
+                    };
+                    screen.onclick = event => {
+                        document.body.onpointermove = null;
+                        screen.onclick = null;
+                    };
+                    
+                }
+
 
 function popupMessage(message) {
     // may make later

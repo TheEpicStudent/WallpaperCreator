@@ -162,3 +162,8 @@ circle {
     justify-content: center;
     display: flex;
 }
+.centered {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}

@@ -157,3 +157,8 @@ sup {
 sub {
     color: #ffffff;
 }
+.centered {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}

@@ -21,60 +21,86 @@
         </div>
         <div id="contentsLeft" class="leftContents">
             <p id="test">Test</p>
-            <h1 id="texth1">Add Text</h1>
-            <input type="text" id="textinput" placeholder="Enter your text here">
-            <button onclick="addText(); done=true;" id="addTextButton">Add Text</button>
-            <input
-            <h1 id="edith1">Edit Text</h1>
-            <p id="editp">Click where you want the text to be.</p>
+            <h1>Add Shapes</h1>
+            <p>Add shapes description</p>
+            <select id="shapeType">
+                <option value="circle">Circle</option>
+                <option value="square">Square</option>
+                <option value="rectangle">Rectangle</option>
+                <!-- <option value="triangle">Triangle</option>
+                <option value="heart">Heart</option> -->
+            </select>
+            <button onclick="createShape();">Add Shape</button>
+            <br>
+            <div class="lazyhorizontalstack">
+            <label for="shapecolorpicker" id="shapecolorlabel">Select Color</label>
+            <input type="color" id="shapecolorpicker" onchange="document.getElementById('shape' + (document.getElementById('shapeselector').value)).style.backgroundColor = this.value;document.getElementById('shapecolorshow').style.backgroundColor = this.value;" style="margin-bottom: 10px; display:none;">
+            <circle id="shapecolorshow">
+            </div>
+            
+            <div class="templatecard">
+                <p>Shape Settings:</p>
+                <br>
+                <button onclick="placeShape();">Edit Shape Placement</button>
+                <br>
+                <sub>Shape Width</sub>
+                <input type="range" id="shapeWidth" min="10" max="500" value="100" oninput="document.getElementById('shape' + (document.getElementById('shapeselector').value)).style.width = this.value + 'px';">
+                <br>
+                <sub>Shape Height</sub>
+                <input type="range" id="shapeHeight" min="10" max="500" value="100" oninput="document.getElementById('shape' + (document.getElementById('shapeselector').value)).style.height = this.value + 'px';">
+                <br>
+                <sub>Shape Transparancy</sub>
+                <input type="range" id="shapeTrans" min="0" max="100" value="100" oninput="document.getElementById('shape' + (document.getElementById('shapeselector').value)).style.opacity = this.value + '%';">
+                <br>
+                <sub>Shape Border Radius</sub>
+                <input type="range" id="shapeBorderRadius" min="0" max="100" value="0" oninput="document.getElementById('shape' + (document.getElementById('shapeselector').value)).style.borderRadius = this.value + '%';">
+                <br>
+                <sub>Select Shape Element</sub>
+                <input type="number" min="1" value="1" id="shapeselector" style="width: 30px;">
+            </div>
             <script>
-                document.getElementById('edith1').style.display = 'none';
-                document.getElementById('editp').style.display = 'none';
-                let number = 1;
-                let done = false;
-                function editText() {
-                    document.getElementById('texth1').style.display = 'none';
-                    document.getElementById('textinput').style.display = 'none';
-                    document.getElementById('addTextButton').style.display = 'none';
-                    document.getElementById('edith1').style.display = 'block';
-                    document.getElementById('editp').style.display = 'block';
-
-                    const screen = document.getElementById('screen');
-                    screen.addEventListener('click', function(event) {
-                        const x = event.clientX;
-                        const y = event.clientY;
-                        const textElements = document.getElementById("text" + (number - 1));
-                        if (textElements) {
-                            textElements.style.left = x + 'px';
-                            textElements.style.top = y + 'px';
-                        }
-                        if (done) {
-                            document.getElementById('texth1').style.display = 'block';
-                            document.getElementById('textinput').style.display = 'block';
-                            document.getElementById('addTextButton').style.display = 'block';
-                            document.getElementById('edith1').style.display = 'none';
-                            document.getElementById('editp').style.display = 'none';
-                            screen.removeEventListener('click', arguments.callee);
-                            done = false;
-                        }
-                    });
-                }
-                function addText() {
-                    const textValue = document.getElementById('textinput').value;
-                    const textElement = document.createElement('p');
-                    textElement.innerText = textValue;
-                    textElement.style.position = 'absolute';
-                    textElement.style.justifySelf = 'center';
-                    textElement.style.alignSelf = 'center';
-                    textElement.style.color = 'black';
-                    textElement.style.fontSize = '24px';
-                    
-                    textElement.id = "text" + number;
-                    number++;
-                    document.getElementById('screen').appendChild(textElement);
-                    editText();
-                }
                 
+                function createShape() {
+                    const screen = document.getElementById('screen');
+                    const shapeElement = document.createElement('div');
+                    shapeElement.style.position = 'absolute';
+                    shapeElement.style.justifySelf = 'center';
+                    shapeElement.style.alignSelf = 'center';
+                    shapeElement.style.backgroundColor = 'gray';
+                    document.getElementById('shapecolorshow').style.backgroundColor = "gray";
+                    shapeElement.style.width = '100px';
+                    shapeElement.style.height = '100px';
+                    shapeElement.id = "shape" + shapenumber;
+                    shapenumber++;
+                    document.getElementById('shapeselector').value = shapenumber - 1;
+                    const shapeType = document.getElementById('shapeType').value
+                    if (shapeType == 'circle') {
+                        shapeElement.style.borderRadius = '50%'
+                    } else if (shapeType == 'square') {
+
+                    } else if (shapeType == 'rectangle') {
+                        shapeElement.style.width = '150px'
+                    } else {
+                        //squeare
+                    }
+                    screen.appendChild(shapeElement);
+                    editText();
+                    
+                }
+                function placeShape() {
+                    const shape = document.getElementById('shape' + (document.getElementById('shapeselector').value));
+                    const screen = document.getElementById('screen');
+                    document.body.onpointermove = event => {
+                    const { clientX, clientY } = event;
+                    shape.style.left = `${clientX}px`;
+                    shape.style.top = `${clientY}px`;
+                    };
+                    screen.onclick = event => {
+                        document.body.onpointermove = null;
+                        screen.onclick = null;
+                    };
+                    
+                }
             </script>
         </div>
     </div>
@@ -83,6 +109,14 @@
 
         </div>
     </div>  
+    <script>
+        // Dev mode yippeee
+        if (localStorage.getItem('devmode') != 'true') {
+            alert("this page is a dev only page bye bye");
+            addEventListener('load', window, window.location.href = '/creator');
+        }
+        
+    </script>
         <script src="creatorJS.js"></script>
 </body>
 </html>

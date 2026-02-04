@@ -8,12 +8,21 @@
 </head>
 <body>
     <h1>Make your own wallpaper!</h1>
-    <p>this shouldve redirected to the creator. If not, check the following:</p>
-    <p>That you have Javascript enabled <noscript>(which you don't)</noscript></p>
-    <p>that your browser is up to date.</p>
-    <button onclick="window.location.href = '/creator';">Try it now</button>
+    <div class="centered">
+        <button onclick="window.location.href = '/creator';">Try it now</button>
+    </div>
+    <div class="screen">
+        
+    </div>
+
+
+
     <script>
-        addEventListener('load', window, window.location.href = '/creator');
+        // Dev mode yippeee
+        if (localStorage.getItem('devmode') != 'true') {
+            addEventListener('load', window, window.location.href = '/creator');
+        }
+        
     </script>
 </body>
 </html>
