@@ -133,7 +133,7 @@ function tabOpen(tab) {
         
         leftside.innerHTML = `
         <h1 id="texth1">Add Text</h1>
-            <input type="text" id="textinput" placeholder="Enter your text here" maxlength="15">
+            <input type="text" id="textinput" placeholder="Enter your text here" maxlength="30">
             <button onclick="addText(); done=true; console.log('clicked');" id="addTextButton">Add Text</button>
             <h1 id="edith1">Edit Text</h1>
             <br>
@@ -234,6 +234,9 @@ function tabOpen(tab) {
                 <br>
                 <sub>Shape Border Radius</sub>
                 <input type="range" id="shapeBorderRadius" min="0" max="100" value="0" oninput="document.getElementById('shape' + (document.getElementById('shapeselector').value)).style.borderRadius = this.value + '%';">
+                <br>
+                <sub>Rotation</sub>
+                <input type="range" id="shapeRotate" min="0" max="360" value="0" oninput="document.getElementById('shape' + (document.getElementById('shapeselector').value)).style.transform = 'rotate(' + this.value + 'deg)';">
                 <br>
                 <sub>Select Shape Element</sub>
                 <input type="number" min="1" value="1" id="shapeselector" style="width: 30px;">
@@ -464,6 +467,14 @@ function resetTextPosition() {
     if (document.getElementById(id).innerText.length > 13) {
         document.getElementById("textsizepicker").value = 16;
         document.getElementById(id).style.fontSize = '16px';
+        let screenbounds = document.getElementById('screen').getBoundingClientRect();
+        let textbounds = document.getElementById(id).getBoundingClientRect();
+        while (textbounds.right > screenbounds.right || textbounds.left < screenbounds.left) {
+            let currentSize = parseInt(document.getElementById(id).style.fontSize);
+            document.getElementById(id).style.fontSize = (currentSize - 1) + 'px';
+            document.getElementById("textsizepicker").value = currentSize - 1;
+            textbounds = document.getElementById(id).getBoundingClientRect();
+        }   
     } else {
         document.getElementById("textsizepicker").value = 24;
         document.getElementById(id).style.fontSize = '24px';
