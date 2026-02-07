@@ -127,6 +127,8 @@ function tabOpen(tab) {
             <p>Then you can start designing your wallpaper, or select a template to get started quickly.</p>
             <br>
             <p>Enjoy!</p>
+            <br>
+            <p><b>This is NOT done, sorry!! You can try to explore, but only a handful of features work.</b></p>
         `;
     } else if (tab === 'text') {
         
