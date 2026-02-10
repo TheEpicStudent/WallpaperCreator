@@ -33,6 +33,11 @@ app.get('/about', (req, res) => {
     res.end(readFileSync(filepath));
     
 });
+app.get('/dev', (req, res) => {
+    res.writeHead(418), { 'Content-Type': 'text/html' };
+        res.end("I'm a teapot lalala (wowie dev mode unlocked) (also use 'localStorage.setItem('devMode', NULL);' to turn off :3c )");
+        localStorage.setItem('devMode', 'true');
+});
 
 server.listen(PORT, () => {
     console.log(`Server is on http://localhost:${PORT}`);
