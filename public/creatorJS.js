@@ -1,6 +1,8 @@
 //creatorJS.js
 
 // AI usage: inline suggestions only
+let distanceX = 0;
+let distanceY = 0;
 shapeTapped = false;
 shapenumber = 1;
 hovering = false
@@ -159,7 +161,7 @@ function tabOpen(tab) {
             <br>
             <div class="lazyhorizontalstack" style="align-items:center;">
             <p id="selectTextElementDesc">Select Text Element:</p>
-            <input type="number" id="textselector" min="0" value="1" style="width:50px;" onchange="console.log('Selected text element ' + this.value);">
+            <input type="number" id="textselector" min="0" value="1" style="width:50px;" onchange="console.log('Selected text element ' + this.value); getElementPos('text' + document.getElementById('textselector').value, false);">
             </div>
             <br>
             <div class="lazyhorizontalstack" style="align-items:center;">
@@ -171,6 +173,7 @@ function tabOpen(tab) {
             <button onclick="deleteText();" id="deleteTextButton">Delete Text Element</button>
             <!-- <select id="textfontselector" style="display:none;"> -->
             <!-- for testing reasons <button onclick="dragText();">teandifn</button> -->
+            <!-- <button onclick="resizedtest('text1');">WORK</button> -->
 
             `;
             // im bouta crash out
@@ -244,6 +247,15 @@ function tabOpen(tab) {
                 <input type="number" min="1" value="1" id="shapeselector" style="width: 30px;">
             </div>
         `;
+    } else if (tab === 'image') { leftside.innerHTML = `
+        <h1>Add Image to Shape</h1>
+        <p><b>dev feature! buggy</b></p>
+            <label for="imageUpload">Upload an image</label>
+            <input type="file" id="imageUpload" accept="image/*" onchange="changeShapeImage()">
+            <input type="number" id="shapeselector" min="1" value="1" style="width:50px;" onchange="console.log('Selected shape element ' + this.value);">
+        `;
+    } else if (tab === 'align') {
+        toggleAlign();
     }
 
 } catch (error) {
@@ -373,6 +385,7 @@ function editText() {
                             originalposx = document.getElementById("text" + (number - 1)).style.left;
                             originalposy = document.getElementById("text" + (number - 1)).style.top;
                             done = false;
+                            getElementPos('text' + (number - 1), false);
                             
                         }
                     });
@@ -392,6 +405,7 @@ function addText() {
                     number++;
                     document.getElementById('screen').appendChild(textElement);
                     editText();
+                    
                 }
 function checkScreenBounds() {
     let id = 'text' + document.getElementById('textselector').value;
@@ -441,6 +455,7 @@ lastposy = document.getElementById(id).style.top;
         document.getElementById(id).style.top = parseInt(document.getElementById(id).style.top) + distance + 'px';
     }
     checkScreenBounds();
+    getElementPos('text' + document.getElementById('textselector').value, false);
 }
 
 
@@ -481,6 +496,7 @@ function resetTextPosition() {
         document.getElementById("textsizepicker").value = 24;
         document.getElementById(id).style.fontSize = '24px';
     }
+    getElementPos('text' + document.getElementById('textselector').value, false);
 }
 
 function downloadWallpaper() {
@@ -577,6 +593,63 @@ function createShape() {
 
 function popupMessage(message) {
     // may make later
+}
+
+function resizedtest(id) {
+    /* document.getElementById(id).style.top = distanceY + 'px';
+    document.getElementById(id).style.left = distanceX + 'px'; */
+}
+
+function getElementPos(id) {
+    /* const element = document.getElementById(id);
+    const rect = element.getBoundingClientRect();
+    let elementX = rect.left + rect.width / 2;
+    let elementY = rect.top + rect.height / 2;
+    const screenrect = document.getElementById('screen').getBoundingClientRect();
+    let screenX = screenrect.left + screenrect.width / 2;
+    let screenY = screenrect.top + screenrect.height / 2;
+    const dist = Math.sqrt(Math.pow(elementX - screenX, 2) + Math.pow(elementY - screenY, 2));
+    const slope = (elementY - screenY) / (elementX - screenX);
+    const angle = Math.atan(slope);
+    distanceX = screenX + dist * Math.cos(angle) - rect.width / 2;
+    distanceY = screenY + dist * Math.sin(angle) - rect.height / 2;
+    console.info({distanceX, distanceY, elementX, elementY, screenX, screenY, dist, slope, angle})
+    return { distanceX, distanceY }; */
+}
+
+document.addEventListener('resize', () => {
+    resizedtest('text' + document.getElementById('textselector').value);
+});
+
+function changeShapeImage() {
+                const fileInput = document.getElementById('imageUpload');
+                const file = fileInput.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const imageUrl = e.target.result;
+                        const shapeElement = document.getElementById('shape' + document.getElementById('shapeselector').value);
+                        if (shapeElement) {
+                            shapeElement.style.backgroundImage = `url(${imageUrl})`;
+                            shapeElement.style.backgroundSize = 'cover';
+                        }
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+
+function toggleAlign() {
+    const screen = document.getElementById('screen');
+    if (document.getElementById('centertop')) {
+        document.getElementById('centertop').remove();
+    } else {
+    screen.innerHTML += `
+    <div id="centertop"style="border-left: 2px solid #ff5555;
+    height: 100%;
+    position: relative;
+    left: 0%;"></div>`
+    }
+    aligning = !aligning;
 }
 /* 
 GOing unused for now bc i dont wanna deal with it

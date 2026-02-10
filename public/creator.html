@@ -22,9 +22,12 @@
         <button onclick="tabOpen('templates');" class="sidebutton"><img src="images/elements/layout.svg" alt="Templates" class="sidebuttonimg"></button>
         <button onclick="tabOpen('background')" class="sidebutton"><img src="images/elements/image.svg" alt="Background" class="sidebuttonimg"></button>
         <button onclick="tabOpen('text')" class="sidebutton"><img src="images/elements/type.svg" alt="Text" class="sidebuttonimg"></button>
-        <button onclick="tabOpen('download')" class="sidebutton"><img src="images/elements/download.svg" alt="Download" class="sidebuttonimg"></button>
         <button id="devShapes" onclick="tabOpen('shapes')" class="sidebutton"><img src="images/elements/square.svg" alt="Shapes" class="sidebuttonimg"></button>
+        <button id="devImages" onclick="tabOpen('image')" class="sidebutton"><img src="images/elements/square.svg" alt="Shapes" class="sidebuttonimg"></button>
+        <button id="devAlign" onclick="tabOpen('align')" class="sidebutton"><img src="images/elements/square.svg" alt="Shapes" class="sidebuttonimg"></button>
+        <button onclick="tabOpen('download')" class="sidebutton"><img src="images/elements/download.svg" alt="Download" class="sidebuttonimg"></button>
         <a href="/about" target="_blank"><button class="sidebutton"><img src="images/elements/info.svg" alt="About" class="sidebuttonimg"></button></a>
+        
         </div>
         <div id="contentsLeft" class="leftContents">
             <h1>Welcome to the Wallpaper Creator!</h1>
@@ -47,5 +50,12 @@
         <button onclick="toggleDarkmode();" id="darkmodeButton">Toggle Dark Mode</button>
         </div>  
         <script src="creatorJS.js"></script>
+        <script>
+            if (localStorage.getItem('devmode') != 'true') {
+                // document.getElementById('devShapes').remove();
+                document.getElementById('devImages').remove();
+                document.getElementById('devAlign').remove();
+            }
+        </script>
 </body>
 </html>

@@ -18,91 +18,34 @@
         <button onclick="tabOpen('screenSize');" >A</button>
         <button onclick="tabOpen('templates');">A</button>
         <button onclick="tabOpen('background')">A</button>
+        <button onclick="tabOpen('shapes')">A</button>
         </div>
         <div id="contentsLeft" class="leftContents">
             <p id="test">Test</p>
-            <h1>Add Shapes</h1>
-            <p>Add shapes description</p>
-            <select id="shapeType">
-                <option value="circle">Circle</option>
-                <option value="square">Square</option>
-                <option value="rectangle">Rectangle</option>
-                <!-- <option value="triangle">Triangle</option>
-                <option value="heart">Heart</option> -->
-            </select>
-            <button onclick="createShape();">Add Shape</button>
-            <br>
-            <div class="lazyhorizontalstack">
-            <label for="shapecolorpicker" id="shapecolorlabel">Select Color</label>
-            <input type="color" id="shapecolorpicker" onchange="document.getElementById('shape' + (document.getElementById('shapeselector').value)).style.backgroundColor = this.value;document.getElementById('shapecolorshow').style.backgroundColor = this.value;" style="margin-bottom: 10px; display:none;">
-            <circle id="shapecolorshow">
-            </div>
-            
-            <div class="templatecard">
-                <p>Shape Settings:</p>
-                <br>
-                <button onclick="placeShape();">Edit Shape Placement</button>
-                <br>
-                <sub>Shape Width</sub>
-                <input type="range" id="shapeWidth" min="10" max="500" value="100" oninput="document.getElementById('shape' + (document.getElementById('shapeselector').value)).style.width = this.value + 'px';">
-                <br>
-                <sub>Shape Height</sub>
-                <input type="range" id="shapeHeight" min="10" max="500" value="100" oninput="document.getElementById('shape' + (document.getElementById('shapeselector').value)).style.height = this.value + 'px';">
-                <br>
-                <sub>Shape Transparancy</sub>
-                <input type="range" id="shapeTrans" min="0" max="100" value="100" oninput="document.getElementById('shape' + (document.getElementById('shapeselector').value)).style.opacity = this.value + '%';">
-                <br>
-                <sub>Shape Border Radius</sub>
-                <input type="range" id="shapeBorderRadius" min="0" max="100" value="0" oninput="document.getElementById('shape' + (document.getElementById('shapeselector').value)).style.borderRadius = this.value + '%';">
-                <br>
-                <sub>Select Shape Element</sub>
-                <input type="number" min="1" value="1" id="shapeselector" style="width: 30px;">
-            </div>
-            <script>
-                
-                function createShape() {
-                    const screen = document.getElementById('screen');
-                    const shapeElement = document.createElement('div');
-                    shapeElement.style.position = 'absolute';
-                    shapeElement.style.justifySelf = 'center';
-                    shapeElement.style.alignSelf = 'center';
-                    shapeElement.style.backgroundColor = 'gray';
-                    document.getElementById('shapecolorshow').style.backgroundColor = "gray";
-                    shapeElement.style.width = '100px';
-                    shapeElement.style.height = '100px';
-                    shapeElement.id = "shape" + shapenumber;
-                    shapenumber++;
-                    document.getElementById('shapeselector').value = shapenumber - 1;
-                    const shapeType = document.getElementById('shapeType').value
-                    if (shapeType == 'circle') {
-                        shapeElement.style.borderRadius = '50%'
-                    } else if (shapeType == 'square') {
-
-                    } else if (shapeType == 'rectangle') {
-                        shapeElement.style.width = '150px'
-                    } else {
-                        //squeare
-                    }
-                    screen.appendChild(shapeElement);
-                    editText();
-                    
-                }
-                function placeShape() {
-                    const shape = document.getElementById('shape' + (document.getElementById('shapeselector').value));
-                    const screen = document.getElementById('screen');
-                    document.body.onpointermove = event => {
-                    const { clientX, clientY } = event;
-                    shape.style.left = `${clientX}px`;
-                    shape.style.top = `${clientY}px`;
-                    };
-                    screen.onclick = event => {
-                        document.body.onpointermove = null;
-                        screen.onclick = null;
-                    };
-                    
-                }
-            </script>
+            <button onclick="addShape();">add shape test DO NOT INCLUDE</button>
+            <h1>Add Image to Shape</h1>
+            <label for="imageUpload">Upload an image</label>
+            <input type="file" id="imageUpload" accept="image/*" onchange="changeShapeImage()">
+            <input type="number" id="shapeselector" min="1" value="1" style="width:50px;" onchange="console.log('Selected shape element ' + this.value);">
         </div>
+        <script>
+            function changeShapeImage() {
+                const fileInput = document.getElementById('imageUpload');
+                const file = fileInput.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const imageUrl = e.target.result;
+                        const shapeElement = document.getElementById('shape' + document.getElementById('shapeselector').value);
+                        if (shapeElement) {
+                            shapeElement.style.backgroundImage = `url(${imageUrl})`;
+                            shapeElement.style.backgroundSize = 'cover';
+                        }
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+        </script>
     </div>
     <div class="rightside">
         <div class="screen" id="screen">
