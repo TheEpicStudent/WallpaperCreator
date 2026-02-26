@@ -20,6 +20,10 @@ let done = false;
 let leftside = document.getElementById('contentsLeft');
 document.getElementById('edith1').style.display = 'none';
 document.getElementById('editp').style.display = 'none';
+oldRelativeX = 0;
+oldRelativeY = 0;
+
+
 
 
 document.getElementById('edith1').style.display = 'none';
@@ -35,6 +39,10 @@ window.addEventListener("beforeunload", (event) => {
 });
 
 function tabOpen(tab) {
+    aligning = false;
+    
+    windowchange();
+
     try {
     if (tab === 'screenSize') {
         leftside.innerHTML = `
@@ -69,6 +77,10 @@ function tabOpen(tab) {
         leftside.innerHTML = `
         <h1>Templates</h1>
             <p>Go ahead, select a template to get started.</p>
+            <div class="templatecard">
+            <p><b>nuh uh uh i needa work on this</b></p>
+            </div>
+            <!--
             <div class="lazyverticalstack">
                 <div class="lazyhorizontalstack">
                     <div class="templatecard">
@@ -94,7 +106,7 @@ function tabOpen(tab) {
                         <button>Select</button>
                     </div>
                     </div>
-            </div>
+            </div> -->
         `;
         // getTemplates();
     } else if (tab === 'background') {
@@ -244,15 +256,19 @@ function tabOpen(tab) {
                 <input type="range" id="shapeRotate" min="0" max="360" value="0" oninput="document.getElementById('shape' + (document.getElementById('shapeselector').value)).style.transform = 'rotate(' + this.value + 'deg)';">
                 <br>
                 <sub>Select Shape Element</sub>
-                <input type="number" min="1" value="1" id="shapeselector" style="width: 30px;">
+                <input type="number" min="1" value="1" onload="document.getElementById('shapeselector').value = shapenumber - 1;" id="shapeselector" style="width: 30px;">
+                <br>
+                <button onclick="tabOpen('image');">Add Image to Shape</button>
             </div>
         `;
     } else if (tab === 'image') { leftside.innerHTML = `
         <h1>Add Image to Shape</h1>
-        <p><b>dev feature! buggy</b></p>
+        <button onclick="tabOpen('shapes');" style="margin-bottom: 10px; border-radius: 50px;">Back</button>
             <label for="imageUpload">Upload an image</label>
-            <input type="file" id="imageUpload" accept="image/*" onchange="changeShapeImage()">
-            <input type="number" id="shapeselector" min="1" value="1" style="width:50px;" onchange="console.log('Selected shape element ' + this.value);">
+            <input type="file" id="imageUpload" accept="image/*" onchange="changeShapeImage()" style="display:none;">
+            <br>
+            <sub>Select Shape Element</sub>
+            <input type="number" id="shapeselector" min="1" value="1" style="width:50px;" onchange="console.log('Selected shape element ' + this.value);" onload="document.getElementById('shapeselector').value = shapenumber - 1;">
         `;
     } else if (tab === 'align') {
         toggleAlign();
@@ -262,6 +278,20 @@ function tabOpen(tab) {
     console.error('Error loading tab content:', error);
     
 }
+}
+
+function toggleAlign() {
+    const screen = document.getElementById('screen');
+    if (document.getElementById('centertop')) {
+        document.getElementById('centertop').remove();
+    } else {
+    screen.innerHTML += `
+    <div id="centertop"style="border-left: 2px solid #ff5555;
+    height: 100%;
+    position: relative;
+    left: 0%;"></div>`
+    }
+    aligning = !aligning;
 }
 
 function updateScreenSize() {
@@ -352,7 +382,12 @@ function editText() {
                         const y = event.clientY;
                         const textElements = document.getElementById("text" + (number - 1));
                         if (textElements) {
+                            
+                            if (aligning) {
+                                textElements.style.left = '50%';
+                            } else {
                             textElements.style.left = x + 'px';
+                            }
                             textElements.style.top = y + 'px';
                         }
                         if (done) {
@@ -386,7 +421,7 @@ function editText() {
                             originalposy = document.getElementById("text" + (number - 1)).style.top;
                             done = false;
                             getElementPos('text' + (number - 1), false);
-                            
+                            getAllelementPos()
                         }
                     });
                 }
@@ -456,6 +491,7 @@ lastposy = document.getElementById(id).style.top;
     }
     checkScreenBounds();
     getElementPos('text' + document.getElementById('textselector').value, false);
+    getAllelementPos();
 }
 
 
@@ -497,6 +533,7 @@ function resetTextPosition() {
         document.getElementById(id).style.fontSize = '24px';
     }
     getElementPos('text' + document.getElementById('textselector').value, false);
+    setAllelementPos();
 }
 
 function downloadWallpaper() {
@@ -558,6 +595,9 @@ function createShape() {
                     document.getElementById('shapecolorshow').style.backgroundColor = "gray";
                     shapeElement.style.width = '100px';
                     shapeElement.style.height = '100px';
+                    shapeElement.style.backgroundSize = 'cover';
+                    shapeElement.style.backgroundPosition = 'center';
+                    shapeElement.style.backgroundRepeat = 'no-repeat';
                     shapeElement.id = "shape" + shapenumber;
                     shapenumber++;
                     document.getElementById('shapeselector').value = shapenumber - 1;
@@ -587,7 +627,7 @@ function createShape() {
                         document.body.onpointermove = null;
                         screen.onclick = null;
                     };
-                    
+                    getAllelementPos();
                 }
 
 
@@ -617,9 +657,7 @@ function getElementPos(id) {
     return { distanceX, distanceY }; */
 }
 
-document.addEventListener('resize', () => {
-    resizedtest('text' + document.getElementById('textselector').value);
-});
+
 
 function changeShapeImage() {
                 const fileInput = document.getElementById('imageUpload');
@@ -638,18 +676,93 @@ function changeShapeImage() {
                 }
             }
 
-function toggleAlign() {
+
+
+function devPixelToPercent() {
+    alert('only work for text')
+    
+    const text = document.getElementById('text' + document.getElementById('textselector').value);
+    const percentX = (parseInt(text.style.left) - window.innerWidth / 2) / (window.innerWidth / 2) * 100;
+    const percentY = (parseInt(text.style.top) - window.innerHeight / 2) / (window.innerHeight / 2) * 100;
+    console.log(`before: (${text.style.left}, ${text.style.top})`);
+    text.style.left = percentX + '%';
+    text.style.top = percentY + '%';
+    
+    console.log(`Text position in percent: (${percentX}%, ${percentY}%)`);
+}
+function devGetPosRelativeToDiv() {
+    const text = document.getElementById('text' + document.getElementById('textselector').value);
     const screen = document.getElementById('screen');
-    if (document.getElementById('centertop')) {
-        document.getElementById('centertop').remove();
-    } else {
-    screen.innerHTML += `
-    <div id="centertop"style="border-left: 2px solid #ff5555;
-    height: 100%;
-    position: relative;
-    left: 0%;"></div>`
+    const textRect = text.getBoundingClientRect();
+    const screenRect = screen.getBoundingClientRect();
+    const relativeX = textRect.left - screenRect.left;
+    const relativeY = textRect.top - screenRect.top;
+    console.log(`Text position relative to screen: (${relativeX}px, ${relativeY}px)`);
+    oldRelativeX = relativeX;
+    oldRelativeY = relativeY;
+    return { relativeX, relativeY };
+}
+function devGetPxFromRelative() {
+    const text = document.getElementById('text' + document.getElementById('textselector').value);
+    const screen = document.getElementById('screen');
+    const screenRect = screen.getBoundingClientRect();
+    const relativeX = oldRelativeX
+    const relativeY = oldRelativeY
+    const absoluteX = screenRect.left + relativeX;
+    const absoluteY = screenRect.top + relativeY;
+    console.log(`Text position in pixels: (${absoluteX}px, ${absoluteY}px)`);
+    text.style.left = absoluteX + 'px';
+    text.style.top = absoluteY + 'px';
+    return { absoluteX, absoluteY };
+}
+function getAllelementPos() {
+    const screen = document.getElementById('screen');
+    const elements = screen.children;
+    for (let i = 0; i < elements.length; i++) {
+        const element = elements[i];
+        const textRect = element.getBoundingClientRect();
+        const screenRect = screen.getBoundingClientRect();
+        const relativeX = textRect.left - screenRect.left;
+        const relativeY = textRect.top - screenRect.top;
+        if (element.id == 'centertop') {
+            
+        } else {
+        element.dataset.relativeX = relativeX;
+        element.dataset.relativeY = relativeY;
+        console.log(`Element ${element.id} HA`)
+}
     }
-    aligning = !aligning;
+}
+function setAllelementPos() {
+    const screen = document.getElementById('screen');
+    const elements = screen.children;
+    for (let i = 0; i < elements.length; i++) {
+        const element = elements[i];
+        const screenRect = screen.getBoundingClientRect();
+        const relativeX = parseFloat(element.dataset.relativeX);
+        const relativeY = parseFloat(element.dataset.relativeY);
+        const absoluteX = screenRect.left + relativeX;
+        const absoluteY = screenRect.top + relativeY;
+        element.style.left = absoluteX + 'px';
+        element.style.top = absoluteY + 'px';
+        console.log(`Element ${element.id} HA`)
+    }
+}
+
+
+
+
+
+function windowchange() {
+    let oldWidth = window.innerWidth;
+    let oldHeight = window.innerHeight;
+    setInterval(() => {
+        if (window.innerWidth !== oldWidth || window.innerHeight !== oldHeight) {
+            setAllelementPos();
+            oldWidth = window.innerWidth;
+            oldHeight = window.innerHeight;
+        }
+    }, 100);
 }
 /* 
 GOing unused for now bc i dont wanna deal with it
