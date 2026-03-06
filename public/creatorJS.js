@@ -18,6 +18,7 @@ let distance = 10;
 let number = 1;
 let done = false;
 let leftside = document.getElementById('contentsLeft');
+let currenttab = 'welcome';
 document.getElementById('edith1').style.display = 'none';
 document.getElementById('editp').style.display = 'none';
 oldRelativeX = 0;
@@ -42,9 +43,10 @@ function tabOpen(tab) {
     aligning = false;
     
     windowchange();
-
+    
     try {
     if (tab === 'screenSize') {
+        currenttab = 'screenSize';
         leftside.innerHTML = `
         <h1>Device Type</h1>
         <p>Select your device type from the list below.</p>
@@ -74,6 +76,7 @@ function tabOpen(tab) {
         
 
     } else if (tab === 'templates') {
+        currenttab = 'templates'
         leftside.innerHTML = `
         <h1>Templates</h1>
             <p>Go ahead, select a template to get started.</p>
@@ -135,6 +138,7 @@ function tabOpen(tab) {
             </div>
         `;
     } else if (tab === 'welcome') {
+        currenttab = 'welcome';
         leftside.innerHTML = `
         <h1>Welcome to the Wallpaper Creator!</h1>
             <p>First, select the Device Type button from the toolbar to your left.</p>
@@ -145,7 +149,7 @@ function tabOpen(tab) {
             <p><b>This is NOT done, sorry!! You can try to explore, but only a handful of features work.</b></p>
         `;
     } else if (tab === 'text') {
-        
+        currenttab = 'text';
         
         leftside.innerHTML = `
         <h1 id="texth1">Add Text</h1>
@@ -211,12 +215,14 @@ function tabOpen(tab) {
         document.getElementById('deleteTextButton').style.display = 'none';
         
     } else if (tab === 'download') {
+        currenttab = 'download';
         leftside.innerHTML = `
         <h1>Download Wallpaper</h1>
             <p>When you are done, go ahead and download it</p>
             <button onclick="downloadWallpaper();">Download Wallpaper</button>
         `;
     } else if (tab === 'shapes') {
+        currenttab = 'shapes';
         leftside.innerHTML = `
         <h1>Add Shapes</h1>
             <p>Add shapes description</p>
@@ -261,7 +267,9 @@ function tabOpen(tab) {
                 <button onclick="tabOpen('image');">Add Image to Shape</button>
             </div>
         `;
-    } else if (tab === 'image') { leftside.innerHTML = `
+    } else if (tab === 'image') { 
+        currenttab = 'image';
+        leftside.innerHTML = `
         <h1>Add Image to Shape</h1>
         <button onclick="tabOpen('shapes');" style="margin-bottom: 10px; border-radius: 50px;">Back</button>
             <label for="imageUpload">Upload an image</label>
@@ -273,7 +281,8 @@ function tabOpen(tab) {
     } else if (tab === 'align') {
         toggleAlign();
     }
-
+    document.getElementById('screen').removeEventListener('click', editText);
+    done = true;
 } catch (error) {
     console.error('Error loading tab content:', error);
     
@@ -382,13 +391,18 @@ function editText() {
                         const y = event.clientY;
                         const textElements = document.getElementById("text" + (number - 1));
                         if (textElements) {
-                            
+                            if (currenttab !== 'text') {
+                                screen.removeEventListener('click', arguments.callee);
+                                return;
+                            } else {
                             if (aligning) {
                                 textElements.style.left = '50%';
                             } else {
                             textElements.style.left = x + 'px';
                             }
                             textElements.style.top = y + 'px';
+                        }
+                            
                         }
                         if (done) {
                             document.getElementById('texth1').style.display = 'block';
@@ -422,6 +436,7 @@ function editText() {
                             done = false;
                             getElementPos('text' + (number - 1), false);
                             getAllelementPos()
+                            screen.removeEventListener(this.click, this)
                         }
                     });
                 }
