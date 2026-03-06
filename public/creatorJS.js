@@ -235,7 +235,7 @@ function tabOpen(tab) {
             <circle id="shapecolorshow">
             </div>
             
-            <div class="templatecard">
+            <div class="templatecard" style="height:350px">
                 <p>Shape Settings:</p>
                 <br>
                 <button onclick="placeShape();">Edit Shape Placement</button>
@@ -533,7 +533,7 @@ function resetTextPosition() {
         document.getElementById(id).style.fontSize = '24px';
     }
     getElementPos('text' + document.getElementById('textselector').value, false);
-    setAllelementPos();
+    getAllelementPos();
 }
 
 function downloadWallpaper() {

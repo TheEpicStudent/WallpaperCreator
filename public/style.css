@@ -132,6 +132,7 @@ verticalline {
     width: 200px;
     flex-shrink: 0;
     text-align: center;
+    overflow-y: scroll;
 }
 label {
     background-image: url(/images/backgrounds/paper.jpg);
